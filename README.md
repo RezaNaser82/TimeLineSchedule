@@ -5,3 +5,4 @@ for running this project you should have .NET8 requirement or Visual Studio 2022
 for create a database you should add a migration in datalayer project like this: Add-migration InitDb
 you can Import Excel Data into database or fill your database manually 
 
+I put My own ExcelFile Here so you can use this
