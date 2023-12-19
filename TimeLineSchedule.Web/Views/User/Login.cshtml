@@ -1,0 +1,60 @@
+﻿@using TimeLineSchedule.Core.DTOs.User;
+@model LoginViewModel
+@{
+    Layout = "_UserLayout";
+}
+
+<section class="ftco-section">
+    <div class="container">
+        @if (ViewBag.Register == true)
+        {
+            <div class="alert alert-success text-end">
+                ثبت نام شما با موفقیت انجام شد
+            </div>
+        }
+        <div class="row justify-content-center"></div>
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5 card-background rounded-input">
+                <div class="p-4 p-md-5">
+                    <div class="text-center mb-3">
+                        <h3 class="text-center mb-4 d-inline-block ">ورود به سایت</h3>
+                        <i class="bi bi-box-arrow-in-left fs-1 align-middle text-primary"></i>
+                    </div>
+                    <form asp-action="Login" asp-controller="User">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="mb-1 input-group">
+                            <i class="bi bi-person-fill input-group-text rounded-input-right"></i>
+                            <input type="text"
+                                   class="form-control p-3 rounded-input-left text-end"
+                                   placeholder="نام کاربری"
+                                   required=""
+                                   autocomplete="off" asp-for="UserName" />
+                        </div>
+                        <span asp-validation-for="UserName" class="text-danger "></span>
+                        <div class="mb-1 mt-3 input-group">
+                            <i class="bi bi-lock-fill input-group-text rounded-input-right"></i>
+                            <input type="password"
+                                   class="form-control p-3 rounded-input-left "
+                                   placeholder="کلمه عبور"
+                                   required=""
+                                   autocomplete="off" asp-for="Password" />
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger "></span>
+                        <div>
+                            <button type="submit"
+                                    class="form-control btn btn-primary p-3 rounded-input-left rounded-input-right">
+                                ورود
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

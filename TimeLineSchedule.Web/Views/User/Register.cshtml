@@ -1,0 +1,65 @@
+﻿@using TimeLineSchedule.Core.DTOs.User;
+@model RegisterViewModel
+@{
+    Layout = "_UserLayout";
+}
+
+<section class="ftco-section-register">
+
+    <div class="container">
+        <div class="row justify-content-center"></div>
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-8 col-xl-5 card-background rounded-input mt-4">
+                <div class="p-4 p-md-5">
+                    <div class="text-center">
+                        <h3 class="text-center mb-4 d-inline-block ">ثبت نام</h3>
+                        <i class="bi bi-box-arrow-in-left fs-1 align-middle text-primary"></i>
+                    </div>
+                    <span class="small">جهت ثبت نام اطلاعات خود را وارد کنید</span>
+                    <form asp-action="Register" asp-controller="User" class="mt-4">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="mb-3  form-group">
+                            <div class="input-group mb-2">
+                                <i class="bi bi-person-fill input-group-text rounded-input-right"></i>
+                                <input
+                                       class="form-control p-3 rounded-input-left text-end"
+                                       placeholder="نام کاربری"
+                                       required=""
+                                       autocomplete="off" asp-for="UserName" />
+                            </div>
+                            <span asp-validation-for="UserName" class="text-danger "></span>
+                        </div>
+                       
+                       
+                        <div class="mb-3  form-group">
+                            <div class="input-group mb-2">
+                                <i class="bi bi-lock-fill input-group-text rounded-input-right"></i>
+                                <input class="form-control p-3 rounded-input-left text-end"
+                                       placeholder="کلمه عبور"
+                                       required=""
+                                       autocomplete="off" asp-for="Password" />
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        
+                        <div>
+                            <button type="submit"
+                                    class="form-control btn btn-primary p-3 rounded-input-left rounded-input-right">
+                                ثبت نام
+                            </button>
+                        </div>
+                        <div class="mt-3">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

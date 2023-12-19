@@ -1,0 +1,73 @@
+﻿@using TimeLineSchedule.Core.Helper
+@model IList<TimeLineSchedule.DataLayer.Entities.ClassData>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت کلاس ها</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+
+
+
+<h1>لیست کلاس ها</h1>
+
+<table class="ExcelTable2007">
+    <thead>
+        <tr>
+            <th class="heading">نام گروه</th>
+            <th class="heading">روز برگزاری</th>
+            <th class="heading">زمان شروع</th>
+            <th class="heading">زمان پایان</th>
+            <th class="heading">نام استاد</th>
+            <th class="heading">شماره کلاس</th>
+            <th class="heading">وضعیت تشکیل</th>
+            <th class="heading">نام درس</th>
+            <th class="heading">عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var classData in Model)
+        {
+                    <form  asp-action="Update" asp-area="UserPanel" asp-controller="ManageClass" method="post">
+                        <input type="hidden" asp-for="Id" value="@classData.Id" />
+                         <tr>
+                <td><input asp-for="Group" value="@classData.Group" name="Group" readonly /></td>
+                <td>
+                    <input asp-for="DayOfClass" value="@classData.DayOfClass" name="DayOfClass" hidden />
+                    <input value="@ValueConverter.ConvertToPersianDayOfWeek(classData.DayOfClass.Value)" disabled />
+                </td>
+
+                <td><input asp-for="ClassStart" value="@classData.ClassStart" name="ClassStart" readonly /></td>
+                <td><input asp-for="ClassEnd" value="@classData.ClassEnd" name="ClassEnd" readonly /></td>
+                <td><input asp-for="TeacherName" value="@classData.TeacherName" name="TeacherName" readonly /></td>
+                <td><input type="number" asp-for="ClassNum" value="@classData.ClassNum" name="ClassNum" /></td>
+                <td>
+                    <select name="ClassStatus" asp-for="ClassStatus">
+                        <option value="true" @(classData.ClassStatus == true ? "selected" : "")>تشکیل</option>
+                        <option value="false" @(classData.ClassStatus == false ? "selected" : "")>لغو
+                            </option>
+                            </select>
+                </td>
+                <td><input asp-for="ClassName" value="@classData.ClassName" name="ClassName" readonly /></td>
+
+                <td><input type="submit" formaction="UserPanel/ManageClass/Update/@classData.Id" value="به روز رسانی" /></td>
+                        
+            </tr>
+            </form>
+           
+          
+        }
+    </tbody>
+</table>
+</body>
+</html>
+
+        
+   
