@@ -12,8 +12,8 @@ using TimeLineSchedule.DataLayer.Context;
 namespace TimeLineSchedule.DataLayer.Migrations
 {
     [DbContext(typeof(TimeLineContext))]
-    [Migration("20231210174227_InitDb")]
-    partial class InitDb
+    [Migration("20231224175957_InitServiceModel")]
+    partial class InitServiceModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,8 +39,8 @@ namespace TimeLineSchedule.DataLayer.Migrations
                     b.Property<string>("ClassName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ClassNum")
-                        .HasColumnType("int");
+                    b.Property<string>("ClassNum")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<TimeOnly?>("ClassStart")
                         .HasColumnType("time");
@@ -53,6 +53,18 @@ namespace TimeLineSchedule.DataLayer.Migrations
 
                     b.Property<string>("Group")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsCreated")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsNew")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsUpdated")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ScheduledDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TeacherName")
                         .HasColumnType("nvarchar(max)");

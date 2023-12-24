@@ -11,6 +11,9 @@
     <title>مدیریت کلاس ها</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
 
@@ -29,14 +32,46 @@
             <th class="heading">شماره کلاس</th>
             <th class="heading">وضعیت تشکیل</th>
             <th class="heading">نام درس</th>
-            <th class="heading">عملیات</th>
+            <th class="heading">تاریخ عملیات</th>
         </tr>
     </thead>
     <tbody>
+            <form asp-action="Create" asp-area="UserPanel" asp-controller="ManageClass" method="post">
+                
+
+            <tr>
+                <td><input type="text" name="Group" /></td>
+                <td>
+                    <select name="DayOfClass">
+                        <option value="Saturday">شنبه</option>
+                        <option value="Sunday">یکشنبه</option>
+                        <option value="Monday">دوشنبه</option>
+                        <option value="Tuesday">سه شنبه</option>
+                        <option value="Wednesday">چهارشنبه</option>
+                        <option value="Thursday">پنجشنبه</option>
+                        <option value="Friday">جمعه</option>
+                    </select>
+                </td>
+                <td><input type="time" name="ClassStart" /></td>
+                <td><input type="time" name="ClassEnd" /></td>
+                <td><input type="text" name="TeacherName" /></td>
+                <td><input type="text" name="ClassNum" /></td>
+                <td>
+                    <select name="ClassStatus">
+                        <option value="true">تشکیل</option>
+                        <option value="false">لغو</option>
+                    </select>
+                </td>
+                <td><input type="text" name="ClassName" /></td>
+                <td><input type="datetime" name="ScheduledDate" /></td>
+                <td><input class="create-class" style="width:100%;" type="submit" formaction="/UserPanel/ManageClass/Create" value="ایجاد" /></td>
+            </tr>
+            </form>
         @foreach (var classData in Model)
         {
                     <form  asp-action="Update" asp-area="UserPanel" asp-controller="ManageClass" method="post">
                         <input type="hidden" asp-for="Id" value="@classData.Id" />
+                    <input type="hidden" id="updateFormHiddenDateInput" name="chosenDate" />
                          <tr>
                 <td><input asp-for="Group" value="@classData.Group" name="Group" readonly /></td>
                 <td>
@@ -47,7 +82,7 @@
                 <td><input asp-for="ClassStart" value="@classData.ClassStart" name="ClassStart" readonly /></td>
                 <td><input asp-for="ClassEnd" value="@classData.ClassEnd" name="ClassEnd" readonly /></td>
                 <td><input asp-for="TeacherName" value="@classData.TeacherName" name="TeacherName" readonly /></td>
-                <td><input type="number" asp-for="ClassNum" value="@classData.ClassNum" name="ClassNum" /></td>
+                <td><input type="text" asp-for="ClassNum" value="@classData.ClassNum" name="ClassNum" /></td>
                 <td>
                     <select name="ClassStatus" asp-for="ClassStatus">
                         <option value="true" @(classData.ClassStatus == true ? "selected" : "")>تشکیل</option>
@@ -56,8 +91,9 @@
                             </select>
                 </td>
                 <td><input asp-for="ClassName" value="@classData.ClassName" name="ClassName" readonly /></td>
+                    <td><input asp-for="ClassName" name="ScheduledDate" /></td>
 
-                <td><input type="submit" formaction="UserPanel/ManageClass/Update/@classData.Id" value="به روز رسانی" /></td>
+                    <td><input type="submit" class="update-class" formaction="UserPanel/ManageClass/Update/@classData.Id" value="به روز رسانی" /></td>
                         
             </tr>
             </form>

@@ -2,6 +2,12 @@
     Layout = "_Layout";
     ViewBag.Title = "بارگذاری فایل اکسل";
 }
+<h6>زمان رفرش شدن سایت(دقیقه)</h6>
+<input id="RefreshWebTime" type="number" class="input-group-text" />
+
+<h6>زمان جا به جا شدن باکس ها (ثانیه)</h6>
+<input id="BoxChangeTime" type="number" class="input-group-text" />
+
 <form action="/UserPanel/Home/ImportExcel" asp-area="UserPanel" asp-controller="Home" method="post" enctype="multipart/form-data">
 
     @Html.AntiForgeryToken()

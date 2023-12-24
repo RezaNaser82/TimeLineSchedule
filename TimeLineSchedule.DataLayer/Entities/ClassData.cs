@@ -24,10 +24,13 @@ namespace TimeLineSchedule.DataLayer.Entities
         [Display(Name = "نام استاد")]
         public string? TeacherName { get; set; }
         [Display(Name = "شماره کلاس")]
-        public int? ClassNum { get; set; }
+        public string? ClassNum { get; set; }
         [Display(Name = "وضعیت تشکیل")]
         public bool? ClassStatus { get; set; }
         [Display(Name = "نام درس")]
         public string? ClassName { get; set; }
+        public bool? IsNew { get; set; }
+        public DateTime? ScheduledDate { get; set; }
+        public bool? IsUpdated { get; set; }
     }
 }

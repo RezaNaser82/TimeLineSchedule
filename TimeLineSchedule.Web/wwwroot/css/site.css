@@ -19,7 +19,7 @@ body {
 .ExcelTable2007 {
     border: 1px solid #B0CBEF;
     border-width: 1px 0px 0px 1px;
-    font-size: 13pt;
+    font-size: 12pt;
     font-family: iransansBold;
     font-weight: 100;
     border-spacing: 0px;
@@ -28,7 +28,7 @@ body {
 }
 
     .ExcelTable2007 TH {
-        background-image: url(excel-2007-header-bg.gif);
+        background-image: url(../Uploads/excel-2007-header-bg.gif);
         background-repeat: repeat-x;
         font-weight: normal;
         font-size: 14px;
@@ -59,7 +59,7 @@ body {
         }
 
     .ExcelTable2007 TH.heading {
-        background-image: url(excel-2007-header-left.gif);
+        background-image: url(../Uploads/excel-2007-header-left.gif);
         background-repeat: none;
     }
 

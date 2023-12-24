@@ -86,7 +86,7 @@ namespace TimeLineSchedule.Core.Services
                     ClassStart = ValueConverter.ParseTime(excelModel.ClassStartTime),
                     ClassEnd = ValueConverter.ParseTime(excelModel.ClassEndTime),
                     TeacherName = excelModel.TeacherName,
-                    ClassNum = classNumParsed,
+                    ClassNum = excelModel.ClassNum,
                     ClassStatus = ValueConverter.ParseClassSituation(excelModel.ClassSituation),
                     ClassName = excelModel.ClassName
                 };

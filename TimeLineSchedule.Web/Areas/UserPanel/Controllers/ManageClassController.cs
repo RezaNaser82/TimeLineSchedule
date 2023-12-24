@@ -39,5 +39,17 @@ namespace TimeLineSchedule.Web.Areas.UserPanel.Controllers
             _classDataService.UpdateClassData(classData);
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        public IActionResult Create(ClassData classData)
+        {
+            if (ModelState.IsValid)
+            {
+                _classDataService.CreateClassData(classData);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(classData);
+        }
     }
 }

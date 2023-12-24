@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TimeLineSchedule.DataLayer.Context;
 
@@ -11,9 +12,11 @@ using TimeLineSchedule.DataLayer.Context;
 namespace TimeLineSchedule.DataLayer.Migrations
 {
     [DbContext(typeof(TimeLineContext))]
-    partial class TimeLineContextModelSnapshot : ModelSnapshot
+    [Migration("20231223151459_InitDB")]
+    partial class InitDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,12 +56,6 @@ namespace TimeLineSchedule.DataLayer.Migrations
 
                     b.Property<bool?>("IsNew")
                         .HasColumnType("bit");
-
-                    b.Property<bool?>("IsUpdated")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ScheduledDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("TeacherName")
                         .HasColumnType("nvarchar(max)");

@@ -9,12 +9,12 @@ namespace TimeLineSchedule.DataLayer.Entities
     public class ExcelClassDataModel
     {
         public string Group { get; set; }
-        public string DayOfClass { get; set; } // Persian Weekday in Excel
-        public DateTime ClassStartTime { get; set; } // Time as string in Excel
-        public DateTime ClassEndTime { get; set; } // Time as string in Excel
+        public string DayOfClass { get; set; } 
+        public DateTime ClassStartTime { get; set; }
+        public DateTime ClassEndTime { get; set; }
         public string TeacherName { get; set; }
-        public string ClassNum { get; set; } // Changed from int to string
-        public string ClassSituation { get; set; } // تشکیل or لغو in Excel
+        public string ClassNum { get; set; }
+        public string ClassSituation { get; set; }
         public string ClassName { get; set; }
     }
 }

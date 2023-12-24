@@ -1,31 +1,69 @@
 ﻿//refresh the page every minute
-function reloadPage() {
+function reloadPage(interval) {
     setTimeout(function () {
         location.reload();
-    }, 60000); 
+    }, interval); 
 }
 
 
 window.onload = reloadPage;
 
 //change location vertically
-function moveCardsVertically() {
-    var $cards = $('.HomeBox');
-    var $firstCard = $cards.first();
-    var $secondCard = $cards.eq(1);
-    var $lastCard = $cards.last();
-    var cardHeight = $firstCard.outerHeight();
 
-    $secondCard.css('top', '-' + cardHeight + 'px')
-        .animate({
-            top: 0
-        }, 1000, function () {
-            $firstCard.insertAfter($lastCard).css('top', 0);
+function moveCardsVertically(interval) {
+    const cards = document.querySelectorAll('.HomeBox');
+    if (cards.length === 0) {
+        return;
+    }
+    const container = document.querySelector('.HomeContainer');
+    const cardHeight = cards[0].offsetHeight;
+    const firstCard = cards[0];
+
+    firstCard.style.transition = 'none';
+    firstCard.style.transform = 'none';
+
+    
+    setTimeout(() => {
+        requestAnimationFrame(() => {
+            firstCard.style.transition = 'transform 1s ease-in-out';
+            firstCard.style.transform = `translateY(${cardHeight*2}px)`;
         });
 
-    $cards.animate({
-        top: '+=' + cardHeight + 'px'
-    }, 2500);
+        firstCard.addEventListener('transitionend', function handler() {
+            firstCard.removeEventListener('transitionend', handler);
+            requestAnimationFrame(() => {
+                firstCard.style.transition = 'none';
+                firstCard.style.transform = 'none';
+                container.appendChild(firstCard);
+            });
+        }, { once: true });
+    }, 50);
 }
 
-setInterval(moveCardsVertically, 10000);
+setInterval(moveCardsVertically, interval);
+
+const refreshInput = document.getElementById('RefreshWebTime');
+const cardChangeInput = document.getElementById('BoxChangeTime');
+
+
+let refreshInterval = 60000;
+let cardChangeInterval = 10000;
+
+
+window.onload = function () {
+    reloadPage(refreshInterval);
+    moveCardsVertically(cardChangeInterval);
+};
+
+
+refreshInput.addEventListener('change', function () {
+    refreshInterval = parseInt(this.value) * 60000; 
+    
+    reloadPage(refreshInterval);
+});
+
+
+cardChangeInput.addEventListener('change', function () {
+    cardChangeInterval = parseInt(this.value) * 1000; 
+    moveCardsVertically(cardChangeInterval);
+});
