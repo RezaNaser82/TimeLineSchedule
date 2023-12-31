@@ -1,5 +1,6 @@
 # TimeLineSchedule
 This project Is written by .NET8 and it is For displaying the Classes Of university on the TV or anything like airport flies Schedule board
+every 10 second The first Class box goes to end and other classes's boxes shift up to replace in the first position
 ********
 this application using repository pattern and it has 3 layers
 Datalayer: for store Context and Models (Entity)
