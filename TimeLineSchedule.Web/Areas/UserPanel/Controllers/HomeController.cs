@@ -22,14 +22,15 @@ namespace TimeLineSchedule.Web.Areas.UserPanel.Controllers
     public class HomeController : Controller
     {
         private readonly IExcelService _excelService;
-        
+        private readonly IClassSettingsService _classSettingsService;
         private readonly ILogger _logger;
 
 
 
-        public HomeController(IExcelService excelService, ILogger<HomeController> logger )
+        public HomeController(IExcelService excelService,IClassSettingsService classSettingsService, ILogger<HomeController> logger )
         {
             _excelService = excelService;  
+            _classSettingsService = classSettingsService;
             _logger = logger;
            
         }
@@ -37,9 +38,15 @@ namespace TimeLineSchedule.Web.Areas.UserPanel.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View();
+            var allClassSettings = _classSettingsService.GetAllSettings();
+            return View(allClassSettings);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> Update(SettingsModel settingsModel)
+        {
+            _classSettingsService.UpdateClassSettings(settingsModel);
+            return RedirectToAction(nameof(Index));
+        }
         [HttpPost]
         public async Task<IActionResult> ImportExcel(IFormFile file)
         {

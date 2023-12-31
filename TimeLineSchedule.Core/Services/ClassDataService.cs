@@ -10,6 +10,7 @@ using TimeLineSchedule.Core.Services.Interface;
 using TimeLineSchedule.DataLayer.Context;
 using TimeLineSchedule.DataLayer.Entities;
 
+
 namespace TimeLineSchedule.Core.Services
 {
     public class ClassDataService : IClassDataService
@@ -23,67 +24,66 @@ namespace TimeLineSchedule.Core.Services
         }
         public IEnumerable<ClassData> GetAllClassData()
         {
-            return _context.ClassDatas.OrderBy(c=>c.DayOfClass).ToList();
+            return _context.ClassDatas.OrderBy(c=>c.DayOfClass).ThenBy(c=>c.ClassStart).ToList();
         }
 
         public ClassData GetClassDataById(int id)
         {
             return _context.ClassDatas.FirstOrDefault(cd => cd.Id == id);
         }
-
-       
-        public void ScheduleOrImmediateClassOperation(ClassData classData)
+        public void CreateOrUpdateClassData(ClassData classData)
         {
-            if (classData.ScheduledDate == null || classData.ScheduledDate <= DateTime.Now)
+            if (classData.ScheduledDate.HasValue && classData.ScheduledDate.Value > DateTime.Now)
             {
-                // Immediate creation/update
-                CreateOrUpdateClass(classData);
+                BackgroundJob.Schedule(() => CreateOrUpdateClassRealMethod(classData), classData.ScheduledDate.Value);
             }
-        else
+            else
             {
-                // Queue job in Hangfire
-                _backgroundJobClient.Schedule(
-                    () => CreateOrUpdateClass(classData),
-                    classData.ScheduledDate.Value
-                );
+                CreateOrUpdateClassDataInternal(classData);
             }
         }
 
-        // This method can be private if only called by this service
-        public void CreateOrUpdateClass(ClassData classData)
+        private void CreateOrUpdateClassDataInternal(ClassData classData)
         {
             if (classData.Id == 0)
             {
+                classData.IsNew = true;
                 _context.ClassDatas.Add(classData);
             }
             else
             {
-                _context.ClassDatas.Update(classData);
+                var existingClassData = _context.ClassDatas.Find(classData.Id);
+                if (existingClassData != null)
+                {
+                    _context.Entry(existingClassData).CurrentValues.SetValues(classData);
+                }
             }
             _context.SaveChanges();
         }
-        public void UpdateClassData(ClassData classData)
-        {
-            _context.Update(classData);
-            _context.SaveChanges();
-        }
-        public void CreateClassData(ClassData classData)
-        {
-            _context.ClassDatas.FirstOrDefault(cd => cd.IsNew == true);
-            _context.ClassDatas.Add(classData);
-            _context.SaveChanges();
-        }
-        public void CleanupClasses()
-        {
-            var newClasses = _context.ClassDatas.Where(c => c.IsNew == true).ToList();
-            _context.ClassDatas.RemoveRange(newClasses);
 
-            var updatedClasses = _context.ClassDatas.Where(c => c.IsUpdated == true && c.ClassStatus == false).ToList();
-            foreach (var updatedClass in updatedClasses)
+        [AutomaticRetry(Attempts = 0)]
+        public void CreateOrUpdateClassRealMethod(ClassData classData)
+        {
+            CreateOrUpdateClassDataInternal(classData);
+        }
+
+        public void DeleteNewClasses()
+        {
+            var newClasses = _context.ClassDatas.Where(c => c.IsNew.HasValue && c.IsNew.Value).ToList();
+            foreach (var classData in newClasses)
             {
-                updatedClass.ClassStatus = true;
+                _context.ClassDatas.Remove(classData);
             }
+            _context.SaveChanges();
+        }
 
+        public void ActivateClasses()
+        {
+            var inactiveClasses = _context.ClassDatas.Where(c => c.ClassStatus.HasValue && !c.ClassStatus.Value).ToList();
+            foreach (var classData in inactiveClasses)
+            {
+                classData.ClassStatus = true;
+            }
             _context.SaveChanges();
         }
     }

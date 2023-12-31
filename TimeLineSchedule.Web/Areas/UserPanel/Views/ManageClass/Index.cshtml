@@ -8,12 +8,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مدیریت کلاس ها</title>
+    <title>مدیریت کلاس ها</title>   
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/lib/mddatatimepicker/mds.bs.datetimepicker.style.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/mddatatimepicker/mds.bs.datetimepicker.js"></script>
+    <script src="~/js/Admin.js"></script>
 </head>
 <body>
 
@@ -23,25 +26,26 @@
 
 <table class="ExcelTable2007">
     <thead>
-        <tr>
-            <th class="heading">نام گروه</th>
-            <th class="heading">روز برگزاری</th>
-            <th class="heading">زمان شروع</th>
-            <th class="heading">زمان پایان</th>
-            <th class="heading">نام استاد</th>
-            <th class="heading">شماره کلاس</th>
-            <th class="heading">وضعیت تشکیل</th>
-            <th class="heading">نام درس</th>
-            <th class="heading">تاریخ عملیات</th>
+        <tr class="row">
+                <th class="heading col-1">نام گروه</th>
+                <th class="heading col-1">روز برگزاری</th>
+                <th class="heading col-1">زمان شروع</th>
+                <th class="heading col-1">زمان پایان</th>
+                <th class="heading col-1">نام استاد</th>
+                <th class="heading col-1">شماره کلاس</th>
+                <th class="heading col-1">وضعیت تشکیل</th>
+                <th class="heading col-1">نام درس</th>
+                <th class="heading col-2">تاریخ عملیات</th>
+                <th class="heading col-1">عملیات</th>
         </tr>
     </thead>
     <tbody>
             <form asp-action="Create" asp-area="UserPanel" asp-controller="ManageClass" method="post">
                 
 
-            <tr>
-                <td><input type="text" name="Group" /></td>
-                <td>
+            <tr class="row">
+                <td class="col-1"><input type="text" name="Group" /></td>
+                <td class="col-1">
                     <select name="DayOfClass">
                         <option value="Saturday">شنبه</option>
                         <option value="Sunday">یکشنبه</option>
@@ -52,48 +56,58 @@
                         <option value="Friday">جمعه</option>
                     </select>
                 </td>
-                <td><input type="time" name="ClassStart" /></td>
-                <td><input type="time" name="ClassEnd" /></td>
-                <td><input type="text" name="TeacherName" /></td>
-                <td><input type="text" name="ClassNum" /></td>
-                <td>
+                <td class="col-1"><input type="time" name="ClassStart" /></td>
+                <td class="col-1"><input type="time" name="ClassEnd" /></td>
+                <td class="col-1"><input type="text" name="TeacherName" /></td>
+                <td class="col-1"><input type="text" name="ClassNum" /></td>
+                <td class="col-1">
                     <select name="ClassStatus">
                         <option value="true">تشکیل</option>
                         <option value="false">لغو</option>
                     </select>
                 </td>
-                <td><input type="text" name="ClassName" /></td>
-                <td><input type="datetime" name="ScheduledDate" /></td>
-                <td><input class="create-class" style="width:100%;" type="submit" formaction="/UserPanel/ManageClass/Create" value="ایجاد" /></td>
+                <td class="col-1"><input type="text" name="ClassName" /></td>
+                <td class="col-2">
+                    <div class="input-group mb-3">
+                        <span id="dtp1" class="input-group-text cursor-pointer" data-mds-dtp-guid="b825fe77-b23c-4b19-bfd5-78c40decb38d" data-bs-original-title="" title="">📅</span>
+                        <input type="text" name="scheduledDate" placeholder="تاریخ" data-name="dtp1-text" class="form-control">
+                    </div>
+
+                </td>
+
+                <td class="col-1"><input class="create-class" type="submit" formaction="/UserPanel/ManageClass/Create" value="ایجاد" /></td>
             </tr>
             </form>
         @foreach (var classData in Model)
         {
                     <form  asp-action="Update" asp-area="UserPanel" asp-controller="ManageClass" method="post">
                         <input type="hidden" asp-for="Id" value="@classData.Id" />
-                    <input type="hidden" id="updateFormHiddenDateInput" name="chosenDate" />
-                         <tr>
-                <td><input asp-for="Group" value="@classData.Group" name="Group" readonly /></td>
-                <td>
+                <tr class="row">
+                    <td class="col-1"><input asp-for="Group" value="@classData.Group" name="Group" readonly /></td>
+                    <td class="col-1">
                     <input asp-for="DayOfClass" value="@classData.DayOfClass" name="DayOfClass" hidden />
                     <input value="@ValueConverter.ConvertToPersianDayOfWeek(classData.DayOfClass.Value)" disabled />
                 </td>
 
-                <td><input asp-for="ClassStart" value="@classData.ClassStart" name="ClassStart" readonly /></td>
-                <td><input asp-for="ClassEnd" value="@classData.ClassEnd" name="ClassEnd" readonly /></td>
-                <td><input asp-for="TeacherName" value="@classData.TeacherName" name="TeacherName" readonly /></td>
-                <td><input type="text" asp-for="ClassNum" value="@classData.ClassNum" name="ClassNum" /></td>
-                <td>
+                    <td class="col-1"><input asp-for="ClassStart" value="@classData.ClassStart" name="ClassStart" readonly /></td>
+                    <td class="col-1"><input asp-for="ClassEnd" value="@classData.ClassEnd" name="ClassEnd" readonly /></td>
+                    <td class="col-1"><input asp-for="TeacherName" value="@classData.TeacherName" name="TeacherName" readonly /></td>
+                    <td class="col-1"><input type="text" asp-for="ClassNum" value="@classData.ClassNum" name="ClassNum" /></td>
+                    <td class="col-1">
                     <select name="ClassStatus" asp-for="ClassStatus">
                         <option value="true" @(classData.ClassStatus == true ? "selected" : "")>تشکیل</option>
                         <option value="false" @(classData.ClassStatus == false ? "selected" : "")>لغو
                             </option>
                             </select>
                 </td>
-                <td><input asp-for="ClassName" value="@classData.ClassName" name="ClassName" readonly /></td>
-                    <td><input asp-for="ClassName" name="ScheduledDate" /></td>
-
-                    <td><input type="submit" class="update-class" formaction="UserPanel/ManageClass/Update/@classData.Id" value="به روز رسانی" /></td>
+                    <td class="col-1"><input asp-for="ClassName" value="@classData.ClassName" name="ClassName" readonly /></td>
+                    <td class="col-2">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text cursor-pointer dtp-trigger" data-date-target="dtp-text-@classData.Id" title="">📅</span>
+                            <input type="text" name="scheduledDate" placeholder="تاریخ" data-name="dtp-text-@classData.Id" class="form-control">
+                        </div>
+                    </td>
+                    <td class="col-1"><input type="submit" class="update-class" formaction="UserPanel/ManageClass/Update/@classData.Id" value="به روز رسانی" /></td>
                         
             </tr>
             </form>

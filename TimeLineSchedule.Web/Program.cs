@@ -21,26 +21,20 @@ services.AddControllersWithViews();
 services.AddDbContext<TimeLineContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AppConnection")));
 
-builder.Services.AddHangfire(configuration => configuration
-    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-    .UseSimpleAssemblyNameTypeSerializer()
-    .UseDefaultTypeSerializer()
-    .UseSqlServerStorage(builder.Configuration.GetConnectionString("AppConnection"), new SqlServerStorageOptions
-    {
-        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-        QueuePollInterval = TimeSpan.Zero,
-        UseRecommendedIsolationLevel = true,
-        DisableGlobalLocks = true
-    }));
+services.AddHangfire(configuration => configuration
+        .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+        .UseSimpleAssemblyNameTypeSerializer()
+        .UseRecommendedSerializerSettings()
+        .UseSqlServerStorage(builder.Configuration.GetConnectionString("AppConnection")));
 
-builder.Services.AddHangfireServer();
+services.AddHangfireServer();
 
 
 services.AddScoped<IUserService, UserService>();
 services.AddScoped<IExcelService, ExcelService>();
 services.AddScoped<IClassDataService, ClassDataService>();
 services.AddScoped<IClassesService, ClassesService>();
+services.AddScoped<IClassSettingsService, ClassSettingsService>();
 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
 
@@ -83,15 +77,9 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.UseHangfireDashboard();
-
-var recurringJobManager = app.Services.GetRequiredService<IRecurringJobManager>();
-recurringJobManager.AddOrUpdate(
-    "WeeklyClassCleanup",
-    () => app.Services.CreateScope().ServiceProvider.GetRequiredService<IClassDataService>().CleanupClasses(),
-    "0 0 * * 5"
-);
-
+app.Services.UseScheduler();
 app.MapControllerRoute(
      name: "areas",
      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
@@ -100,6 +88,29 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-   
+
+
 
 app.Run();
+
+
+public static class SchedulerExtensions
+{
+    public static void UseScheduler(this IServiceProvider serviceProvider)
+    {
+
+        using var scope = serviceProvider.CreateScope();
+        var classDataService = scope.ServiceProvider.GetRequiredService<IClassDataService>();
+
+
+        RecurringJob.AddOrUpdate(
+            "delete_new_classes",
+            () => classDataService.DeleteNewClasses(),
+            "0 0 * * 5");
+
+        RecurringJob.AddOrUpdate(
+            "activate_classes",
+            () => classDataService.ActivateClasses(),
+            "0 0 * * 5");
+    }
+}

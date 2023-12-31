@@ -31,6 +31,5 @@ namespace TimeLineSchedule.DataLayer.Entities
         public string? ClassName { get; set; }
         public bool? IsNew { get; set; }
         public DateTime? ScheduledDate { get; set; }
-        public bool? IsUpdated { get; set; }
     }
 }

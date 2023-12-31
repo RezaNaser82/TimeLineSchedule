@@ -1,12 +1,35 @@
 ﻿@{
     Layout = "_Layout";
-    ViewBag.Title = "بارگذاری فایل اکسل";
+    ViewBag.Title = "تنظیمات وب سایت";
+    @model IList<TimeLineSchedule.DataLayer.Entities.SettingsModel>
 }
-<h6>زمان رفرش شدن سایت(دقیقه)</h6>
-<input id="RefreshWebTime" type="number" class="input-group-text" />
+<table>
+    <tr class="row">
+<th class="col-3">زمان رفرش شدن سایت(دقیقه)</th>
+<th class="col-3">زمان جا به جا شدن باکس ها (ثانیه)</th>
+    </tr>
+@foreach (var settingClass in Model)
+{
+        <form id="settingsForm" asp-action="Update" asp-area="UserPanel" asp-controller="Home" method="post">
+        <input type="hidden" asp-for="Id" value="@settingClass.Id" />
+        <tr class="row">
+            <td class="col-3">
+                <input class="input-group" type="number" name="RefreshTime" asp-for="RefreshTime" value="@settingClass.RefreshTime"/>
+            </td>
+            <td class="col-3">
+                <input type="number" class="input-group" name="ChangeBoxTime" asp-for="ChangeBoxTime" value="@settingClass.ChangeBoxTime" />
+            </td>
+            <td class="col-3"><input type="submit" class="update-class input-group btn btn-outline-secondary" formaction="UserPanel/Home/Update/@settingClass.Id" value="به روز رسانی" /></td>
 
-<h6>زمان جا به جا شدن باکس ها (ثانیه)</h6>
-<input id="BoxChangeTime" type="number" class="input-group-text" />
+        </tr>
+    </form>
+
+    
+}
+</table>
+
+
+
 
 <form action="/UserPanel/Home/ImportExcel" asp-area="UserPanel" asp-controller="Home" method="post" enctype="multipart/form-data">
 
@@ -24,3 +47,4 @@
     @Html.AntiForgeryToken()
     <button type="submit" class="btn btn-primary w-100">ریست کردن جدول دیتابیس</button>
     </form>
+    <script src="~/js/site.js"></script>
