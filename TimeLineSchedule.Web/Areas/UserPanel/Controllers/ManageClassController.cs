@@ -9,7 +9,7 @@ using TimeLineSchedule.DataLayer.Entities;
 namespace TimeLineSchedule.Web.Areas.UserPanel.Controllers
 {
     [Area("UserPanel")]
-    [Authorize(Roles = "MainAdmin , SecondAdmin")]
+    //[Authorize(Roles = "MainAdmin , SecondAdmin")]
 
     public class ManageClassController : Controller
     {
@@ -26,52 +26,30 @@ namespace TimeLineSchedule.Web.Areas.UserPanel.Controllers
             var allClassData = _classDataService.GetAllClassData();
             return View(allClassData);
         }
-
         [HttpPost]
-        public IActionResult Create(ClassData classData, string scheduledDate)
+        public IActionResult CreateUpdate(ClassData classData, string scheduledDate)
         {
-            if (string.IsNullOrWhiteSpace(scheduledDate) || ModelState[nameof(scheduledDate)].Errors.Count > 0)
-            {
-                ModelState.Remove(nameof(scheduledDate));
-
-                classData.ScheduledDate = DateTime.Today;
-            }
             if (!string.IsNullOrWhiteSpace(scheduledDate))
             {
                 classData.ScheduledDate = ConvertPersianToGregorian(scheduledDate) ?? DateTime.Today;
             }
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                _classDataService.CreateOrUpdateClassData(classData);
-                return RedirectToAction(nameof(Index));
+                var listOfClassData = new List<ClassData> { classData };
+                return View(nameof(Index), listOfClassData);
             }
 
-            return View(nameof(Index), classData);
+            _classDataService.CreateOrUpdateClassData(classData);
+            return RedirectToAction(nameof(Index));
         }
-
-
         [HttpPost]
-        public IActionResult Update(ClassData classData, string scheduledDate)
+        public IActionResult Delete(int id)
         {
-            if (string.IsNullOrWhiteSpace(scheduledDate) || ModelState[nameof(scheduledDate)].Errors.Count > 0)
-            {
-                ModelState.Remove(nameof(scheduledDate));
-
-                classData.ScheduledDate = DateTime.Today;
-            }
-            if (!string.IsNullOrWhiteSpace(scheduledDate))
-            {
-                classData.ScheduledDate = ConvertPersianToGregorian(scheduledDate) ?? DateTime.Today;
-            }
-            if (ModelState.IsValid)
-            {
-                _classDataService.CreateOrUpdateClassData(classData);
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(nameof(Index), classData);
+            var classDataToDelete = new ClassData { Id = id };
+            _classDataService.RemoveClasses(classDataToDelete);
+            return RedirectToAction(nameof(Index));
         }
-
         private DateTime? ConvertPersianToGregorian(string persianDate)
         {
             try

@@ -21,7 +21,7 @@ body {
     font-family: iransansBold;
     font-weight: 100;
     direction:rtl;
-    margin-right:10%;
+    margin-right:2%;
 }
 
     .ExcelTable2007 TH {
@@ -65,35 +65,24 @@ body {
     }
 
     /*HomePage*/
-.HomePageHeader {
-    background-color: #88B8F3;
-    font-family: iransansBold;
-    font-size: larger;
-}
-.HomePageBoard {
-    background-color: #88B8F3;
-    font-family: iransans;
-    height:33%;
-    width:100%;
-    font-size:40pt;
-    
-}
-.HomeBox div
-{
-    text-align:center;
-    align-content:center;
-    align-items:center;
-    justify-content:center;
-    vertical-align:middle;
-    display:flex;
-    
-}
-/*  gradient  */
+
 .HomePageBG {
-    background: rgb(142,187,244);
-    background: linear-gradient(0deg, rgba(142,187,244,1) 0%, rgba(255,255,255,1) 100%);
+    background: rgb(142, 187, 244);
+    background: linear-gradient(0deg, rgba(142, 187, 244, 1) 0%, rgba(255, 255, 255, 1) 100%);
 }
-.HomeContainer
-{
-    height:1000px;
+
+.HomeContainer {
+    height:1080px;
+}
+
+.HomePageBoard {
+    font-family: iransans;
+    font-size: 2em;
+    height:22%;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
 }

@@ -16,5 +16,7 @@ namespace TimeLineSchedule.DataLayer.Entities
         public string ClassNum { get; set; }
         public string ClassSituation { get; set; }
         public string ClassName { get; set; }
+        public string CourseId { get; set; }
+        public string ClassCode { get; set; }
     }
 }

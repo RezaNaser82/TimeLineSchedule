@@ -46,14 +46,16 @@ namespace TimeLineSchedule.Core.Services
                         {
                             var excelClassData = new ExcelClassDataModel
                             {
-                                Group = reader.GetValue(0)?.ToString(),
-                                DayOfClass = reader.GetValue(1)?.ToString(),
+                                Group = reader.GetValue(0).ToString(),
+                                DayOfClass = reader.GetValue(1).ToString(),
                                 ClassStartTime = reader.GetDateTime(2), 
                                 ClassEndTime = reader.GetDateTime(3), 
-                                TeacherName = reader.GetValue(4)?.ToString(),
-                                ClassNum = reader.GetValue(5)?.ToString(),
-                                ClassSituation = reader.GetValue(6)?.ToString(),
-                                ClassName = reader.GetValue(7)?.ToString(),
+                                TeacherName = reader.GetValue(4).ToString(),
+                                ClassNum = reader.GetValue(5).ToString(),
+                                ClassSituation = reader.GetValue(6).ToString(),
+                                ClassName = reader.GetValue(7).ToString(),
+                                CourseId = reader.GetValue(8).ToString(),
+                                ClassCode = reader.GetValue(9).ToString(),
                             };
                             excelClassDataList.Add(excelClassData);
                         }
@@ -88,7 +90,10 @@ namespace TimeLineSchedule.Core.Services
                     TeacherName = excelModel.TeacherName,
                     ClassNum = excelModel.ClassNum,
                     ClassStatus = ValueConverter.ParseClassSituation(excelModel.ClassSituation),
-                    ClassName = excelModel.ClassName
+                    ClassName = excelModel.ClassName,
+                    CourseId = Convert.ToInt32(excelModel.CourseId),
+                    ClassCode = Convert.ToInt32(excelModel.ClassCode),
+                    ScheduledDate = DateTime.Now,
                 };
 
 

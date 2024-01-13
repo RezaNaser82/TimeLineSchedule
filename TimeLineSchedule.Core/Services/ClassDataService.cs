@@ -33,9 +33,9 @@ namespace TimeLineSchedule.Core.Services
         }
         public void CreateOrUpdateClassData(ClassData classData)
         {
-            if (classData.ScheduledDate.HasValue && classData.ScheduledDate.Value > DateTime.Now)
+            if (classData.ScheduledDate > DateTime.Now)
             {
-                BackgroundJob.Schedule(() => CreateOrUpdateClassRealMethod(classData), classData.ScheduledDate.Value);
+                BackgroundJob.Schedule(() => CreateOrUpdateClassRealMethod(classData), classData.ScheduledDate);
             }
             else
             {
@@ -66,7 +66,7 @@ namespace TimeLineSchedule.Core.Services
         {
             CreateOrUpdateClassDataInternal(classData);
         }
-
+       
         public void DeleteNewClasses()
         {
             var newClasses = _context.ClassDatas.Where(c => c.IsNew.HasValue && c.IsNew.Value).ToList();
@@ -76,15 +76,26 @@ namespace TimeLineSchedule.Core.Services
             }
             _context.SaveChanges();
         }
-
+        
         public void ActivateClasses()
         {
-            var inactiveClasses = _context.ClassDatas.Where(c => c.ClassStatus.HasValue && !c.ClassStatus.Value).ToList();
+            var inactiveClasses = _context.ClassDatas.Where( c=>!c.ClassStatus).ToList();
             foreach (var classData in inactiveClasses)
             {
                 classData.ClassStatus = true;
             }
             _context.SaveChanges();
+        }
+
+        public void RemoveClasses(ClassData classData)
+        {
+            var existingClassData = _context.ClassDatas.Find(classData.Id);
+            if (existingClassData != null)
+            {
+                _context.Remove(existingClassData);
+                _context.SaveChanges();
+
+            }
         }
     }
 }

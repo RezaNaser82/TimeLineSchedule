@@ -12,6 +12,7 @@ namespace TimeLineSchedule.Core.Services.Interface
         IEnumerable<ClassData> GetAllClassData();
         ClassData GetClassDataById(int id);
         void CreateOrUpdateClassData(ClassData classData);
+        public void RemoveClasses(ClassData classData);
         public void DeleteNewClasses();
         public void ActivateClasses();
 

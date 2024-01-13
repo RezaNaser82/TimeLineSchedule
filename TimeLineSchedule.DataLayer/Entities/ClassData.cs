@@ -13,23 +13,27 @@ namespace TimeLineSchedule.DataLayer.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Display(Name ="نام گروه")]
-        public string? Group { get; set; }
-        [Display(Name = "روز برگزاری")]
-        public DayOfWeek? DayOfClass { get; set; }
-        [Display(Name = "زمان شروع")]
-        public TimeOnly? ClassStart { get; set; }
-        [Display(Name = "زمان پایان")]
-        public TimeOnly? ClassEnd { get; set; }
-        [Display(Name = "نام استاد")]
-        public string? TeacherName { get; set; }
-        [Display(Name = "شماره کلاس")]
-        public string? ClassNum { get; set; }
-        [Display(Name = "وضعیت تشکیل")]
-        public bool? ClassStatus { get; set; }
-        [Display(Name = "نام درس")]
-        public string? ClassName { get; set; }
+        [Required(ErrorMessage = "وارد کردن نام رشته اجباری است")]
+        public string Group { get; set; }
+        [Required(ErrorMessage = "روز برگزاری را وارد کنید")]
+        public DayOfWeek DayOfClass { get; set; }
+        [Required(ErrorMessage = "ساعت شروع کلاس را وارد کنید")]
+        public TimeOnly ClassStart { get; set; }
+        [Required(ErrorMessage = "ساعت پایان کلاس را وارد کنید")]
+        public TimeOnly ClassEnd { get; set; }
+        [Required(ErrorMessage = "نام استاد را وارد کنید")]
+        public string TeacherName { get; set; }
+        [Required(ErrorMessage = "مکان برگزاری کلاس را وارد کنید")]
+        public string ClassNum { get; set; }
+        public bool ClassStatus { get; set; }
+        [Required(ErrorMessage = "  نام درس را وارد کنید")]
+        public string ClassName { get; set; }
+        [Required(ErrorMessage = "کد درس را وارد کنید")]
+        public int CourseId { get; set; }
+        [Required(ErrorMessage = " کد کلاس را وارد کنید")]
+        public int ClassCode { get; set; }
         public bool? IsNew { get; set; }
-        public DateTime? ScheduledDate { get; set; }
+        [Required(ErrorMessage = "تاریخ انجام عملیات را وارد کنید")]
+        public DateTime ScheduledDate { get; set; }
     }
 }

@@ -23,24 +23,15 @@
 
             @foreach (var classItem in Model)
             {
-
-
             <div class="row border border-dark HomePageBoard HomeBox"  style="background-color: @(GetClassBoxColor(classItem))">
-                <div class="col-2 border border-dark">@classItem.ClassName</div>
-                <div class="col-2 border border-dark">@classItem.Group</div>
-                <div class="col-2 border border-dark">@classItem.TeacherName</div>
-                <div class="col-2 border border-dark">@classItem.ClassNum</div>
-                <div class="col-2 border border-dark">
-                    @if (classItem.DayOfClass != null)
-                    {
-                        <text>@ValueConverter.ConvertToPersianDayOfWeek(classItem.DayOfClass.Value)</text>
-                    }
-                    else
-                    {
-                        <text>روز نامشخص</text>
-                    }
+                <div class="col-2 ">@classItem.ClassName</div>
+                <div class="col-2 ">@classItem.Group</div>
+                <div class="col-2 ">@classItem.TeacherName</div>
+                <div class="col-2">@classItem.ClassNum</div>
+                <div class="col-2">                   
+                <text>@ValueConverter.ConvertToPersianDayOfWeek(classItem.DayOfClass)</text>
                 </div>
-                <div class="col-2 border border-dark"><i>@classItem.ClassStart</i>-<i>@classItem.ClassEnd</i></div>
+                <div class="col-2"><i>@classItem.ClassStart</i>-<i>@classItem.ClassEnd</i></div>
             </div>    
             }
     </div>
@@ -59,11 +50,10 @@
         {
             
             var currentTime = DateTime.Now.TimeOfDay;
-            var classStartTime = classItem.ClassStart?.ToTimeSpan(); 
-            var classEndTime = classItem.ClassEnd?.ToTimeSpan(); 
+            var classStartTime = classItem.ClassStart.ToTimeSpan(); 
+            var classEndTime = classItem.ClassEnd.ToTimeSpan(); 
 
-            if (classStartTime != null && classEndTime != null &&
-                currentTime >= classStartTime && currentTime <= classEndTime)
+            if ( currentTime >= classStartTime && currentTime <= classEndTime)
             {
                 return "#77FF58"; 
             }
