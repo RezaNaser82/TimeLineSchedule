@@ -9,7 +9,7 @@ using TimeLineSchedule.DataLayer.Entities;
 namespace TimeLineSchedule.Web.Areas.UserPanel.Controllers
 {
     [Area("UserPanel")]
-    //[Authorize(Roles = "MainAdmin , SecondAdmin")]
+    [Authorize(Roles = "MainAdmin , SecondAdmin")]
 
     public class ManageClassController : Controller
     {

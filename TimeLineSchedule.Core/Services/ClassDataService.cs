@@ -47,7 +47,6 @@ namespace TimeLineSchedule.Core.Services
         {
             if (classData.Id == 0)
             {
-                classData.IsNew = true;
                 _context.ClassDatas.Add(classData);
             }
             else

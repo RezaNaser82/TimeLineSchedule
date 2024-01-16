@@ -34,7 +34,6 @@ services.AddScoped<IUserService, UserService>();
 services.AddScoped<IExcelService, ExcelService>();
 services.AddScoped<IClassDataService, ClassDataService>();
 services.AddScoped<IClassesService, ClassesService>();
-services.AddScoped<IClassSettingsService, ClassSettingsService>();
 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
 
