@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -36,7 +37,8 @@ namespace TimeLineSchedule.Web.Areas.UserPanel.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-           return View();
+            ViewBag.HasTableData = await _excelService.HasTableData();
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> ImportExcel(IFormFile file)
@@ -49,6 +51,7 @@ namespace TimeLineSchedule.Web.Areas.UserPanel.Controllers
             try
             {
                 await _excelService.ImportExcelData(file);
+                TempData["SuccessMessage"] = "فایل اکسل با موفقیت آپلود شد";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -66,7 +69,7 @@ namespace TimeLineSchedule.Web.Areas.UserPanel.Controllers
         public async Task<IActionResult> ClearTable()
         {
             await _excelService.DeleteExcelData();
-
+            TempData["SuccessMessage"] = "کلاس ها با موفقیت ریست شدند";
             return RedirectToAction("Index"); 
         }
         

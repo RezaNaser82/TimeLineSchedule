@@ -1,9 +1,17 @@
-﻿@{
+﻿@using TimeLineSchedule.DataLayer.Entities
+@model ClassData;
+@{
     Layout = "_Layout";
     ViewBag.Title = "تنظیمات وب سایت";
 }
 
-
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 <form action="/UserPanel/Home/ImportExcel" asp-area="UserPanel" asp-controller="Home" method="post" enctype="multipart/form-data">
 
     @Html.AntiForgeryToken()
@@ -11,7 +19,7 @@
         <label for="fileUpload">انتخاب فایل اکسل برای وارد کردن :</label>
         <input type="file" name="file" accept=".xlsx" id="fileUpload" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary w-100">بارگذاری</button>
+    <button type="submit" class="btn btn-primary w-100" disabled="@ViewBag.HasTableData">بارگذاری</button>
 </form>
 <br />
 
@@ -21,3 +29,10 @@
     <button type="submit" class="btn btn-primary w-100">ریست کردن جدول دیتابیس</button>
     </form>
     <script src="~/js/site.js"></script>
+@section Scripts {
+    <script>
+        if (window.location.search.includes("resetSuccess=true")) {
+            document.getElementById("fileUpload").disabled = false;
+        }
+    </script>
+}

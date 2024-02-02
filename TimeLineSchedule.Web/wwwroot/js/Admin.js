@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿const { ajax } = require("jquery");
+
+$(document).ready(function () {
     //Jalali date picker
     const dtp1Instance = new mds.MdsPersianDateTimePicker(document.getElementById('dtp1'), {
         targetTextSelector: '[data-name="dtp1-text"]',
@@ -36,5 +38,21 @@
             }
         }
     });
+    // Add validation for classStart and classEnd: class start should be less than class end Time
+    const classStartInputs = document.querySelectorAll(".class-start");
+    const classEndInputs = document.querySelectorAll(".class-end");
 
+    classStartInputs.forEach(input => input.addEventListener("change", validateTimes));
+    classEndInputs.forEach(input => input.addEventListener("change", validateTimes));
+
+    function validateTimes() {
+        debugger
+        const classStartTime = new Date(`1970-01-01T${document.querySelector(".class-start").value}:00`);
+        const classEndTime = new Date(`1970-01-01T${document.querySelector(".class-end").value}:00`);
+
+        if (classStartTime >= classEndTime) {
+            alert("ساعت شروع باید قبل از ساعت پایان باشد");
+            document.querySelector(".class-end").value = "";
+        }
+    }
 });

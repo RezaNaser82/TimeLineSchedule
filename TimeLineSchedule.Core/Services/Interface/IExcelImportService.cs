@@ -12,6 +12,7 @@ namespace TimeLineSchedule.Core.Services.Interface
         {
         Task ImportExcelData(IFormFile file);
         Task DeleteExcelData();
+        Task<bool> HasTableData();
     }
 }
 

@@ -33,9 +33,10 @@ namespace TimeLineSchedule.Core.Services
         }
         public void CreateOrUpdateClassData(ClassData classData)
         {
-            if (classData.ScheduledDate > DateTime.Now)
+
+            if (classData.ScheduledDate.HasValue && classData.ScheduledDate.Value > DateTime.Now)
             {
-                BackgroundJob.Schedule(() => CreateOrUpdateClassRealMethod(classData), classData.ScheduledDate);
+                BackgroundJob.Schedule(() => CreateOrUpdateClassRealMethod(classData), classData.ScheduledDate.Value);
             }
             else
             {
@@ -78,7 +79,7 @@ namespace TimeLineSchedule.Core.Services
         
         public void ActivateClasses()
         {
-            var inactiveClasses = _context.ClassDatas.Where( c=>!c.ClassStatus).ToList();
+            var inactiveClasses = _context.ClassDatas.Where(c => c.ClassStatus.HasValue && !c.ClassStatus.Value).ToList();
             foreach (var classData in inactiveClasses)
             {
                 classData.ClassStatus = true;

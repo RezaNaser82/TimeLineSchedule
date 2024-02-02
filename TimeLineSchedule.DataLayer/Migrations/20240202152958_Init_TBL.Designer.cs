@@ -12,8 +12,8 @@ using TimeLineSchedule.DataLayer.Context;
 namespace TimeLineSchedule.DataLayer.Migrations
 {
     [DbContext(typeof(TimeLineContext))]
-    [Migration("20231230170514_initHangFire")]
-    partial class initHangFire
+    [Migration("20240202152958_Init_TBL")]
+    partial class Init_TBL
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace TimeLineSchedule.DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("ClassCode")
+                        .HasColumnType("int");
+
                     b.Property<TimeOnly?>("ClassEnd")
                         .HasColumnType("time");
 
@@ -47,6 +50,9 @@ namespace TimeLineSchedule.DataLayer.Migrations
 
                     b.Property<bool?>("ClassStatus")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("DayOfClass")
                         .HasColumnType("int");
@@ -66,33 +72,6 @@ namespace TimeLineSchedule.DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ClassDatas");
-                });
-
-            modelBuilder.Entity("TimeLineSchedule.DataLayer.Entities.SettingsModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ChangeBoxTime")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RefreshTime")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("settings", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ChangeBoxTime = 10,
-                            RefreshTime = 1
-                        });
                 });
 
             modelBuilder.Entity("TimeLineSchedule.DataLayer.Entities.User", b =>

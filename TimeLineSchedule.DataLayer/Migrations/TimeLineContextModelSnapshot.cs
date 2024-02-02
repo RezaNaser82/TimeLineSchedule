@@ -30,44 +30,40 @@ namespace TimeLineSchedule.DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClassCode")
+                    b.Property<int?>("ClassCode")
                         .HasColumnType("int");
 
-                    b.Property<TimeOnly>("ClassEnd")
+                    b.Property<TimeOnly?>("ClassEnd")
                         .HasColumnType("time");
 
                     b.Property<string>("ClassName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClassNum")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeOnly>("ClassStart")
+                    b.Property<TimeOnly?>("ClassStart")
                         .HasColumnType("time");
 
-                    b.Property<bool>("ClassStatus")
+                    b.Property<bool?>("ClassStatus")
                         .HasColumnType("bit");
 
-                    b.Property<int>("CourseId")
+                    b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DayOfClass")
+                    b.Property<int?>("DayOfClass")
                         .HasColumnType("int");
 
                     b.Property<string>("Group")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsNew")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("ScheduledDate")
+                    b.Property<DateTime?>("ScheduledDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("TeacherName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

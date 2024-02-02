@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TimeLineSchedule.DataLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class InitDB : Migration
+    public partial class Init_TBL : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,7 +27,10 @@ namespace TimeLineSchedule.DataLayer.Migrations
                     ClassNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClassStatus = table.Column<bool>(type: "bit", nullable: true),
                     ClassName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsNew = table.Column<bool>(type: "bit", nullable: true ,defaultValue:false)
+                    CourseId = table.Column<int>(type: "int", nullable: true),
+                    ClassCode = table.Column<int>(type: "int", nullable: true),
+                    IsNew = table.Column<bool>(type: "bit", nullable: true),
+                    ScheduledDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

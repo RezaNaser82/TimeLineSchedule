@@ -14,10 +14,6 @@
     <link href="~/lib/mddatatimepicker/mds.bs.datetimepicker.style.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/mddatatimepicker/mds.bs.datetimepicker.js"></script>
     <script src="~/js/Admin.js"></script>
@@ -54,27 +50,25 @@
         </tr>
     </thead>
     <tbody>
-            <form asp-action="Create" asp-area="UserPanel" asp-controller="ManageClass" method="post">
+            <form method="post">
                 
 
             <tr class="row">
                 <td class="col-1">
-                    <input type="number" name="CourseId" />
-                    <span asp-validation-for="CourseId" class="text-danger "></span>
+                    <input type="number" name="CourseId" required oninvalid="this.setCustomValidity('لطفا کد درس را وارد کنید')" oninput="this.setCustomValidity('')" />
                 </td>
                 <td class="col-1">
-                    <input type="number" name="ClassCode" />
-                    <span asp-validation-for="ClassCode" class="text-danger "></span>
+                    <input type="number" name="ClassCode" required oninvalid="this.setCustomValidity('لطفا کد کلاس را وارد کنید')" oninput="this.setCustomValidity('')"/>
                 </td>
                
 
-                <td class="col-1"><input type="text" name="Group" />
-                    <span asp-validation-for="Group" class="text-danger "></span>
+                <td class="col-1">
+                    <input type="text" name="Group" required oninvalid="this.setCustomValidity('لطفا رشته درس را وارد کنید')" oninput="this.setCustomValidity('')" />
                 </td>
                 
 
                 <td class="col-1">
-                    <select name="DayOfClass" id="dayOfWeekSelector">
+                    <select name="DayOfClass" id="dayOfWeekSelector" required oninvalid="this.setCustomValidity('لطفا روز کلاس را وارد کنید')" oninput="this.setCustomValidity('')">
                         <option value="Saturday">شنبه</option>
                         <option value="Sunday">یکشنبه</option>
                         <option value="Monday">دوشنبه</option>
@@ -84,43 +78,42 @@
                         <option value="Friday">جمعه</option>
                     </select>
                 </td>
-                <td class="col-1"><input type="time" name="ClassStart" />
-                    <span asp-validation-for="ClassStart" class="text-danger "></span>
+                <td class="col-1">
+                    <input type="time" name="ClassStart" class="class-start" required oninvalid="this.setCustomValidity('لطفا ساعت شروع کلاس را وارد کنید')" oninput="this.setCustomValidity('')" />
                 </td>
              
-                <td class="col-1"><input type="time" name="ClassEnd" />
-                    <span asp-validation-for="ClassEnd" class="text-danger "></span>
+                <td class="col-1">
+                    <input type="time" name="ClassEnd" class="class-end" required oninvalid="this.setCustomValidity('لطفا ساعت پایان کلاس را وارد کنید')" oninput="this.setCustomValidity('')" />
                 </td>               
-                <td class="col-1"><input type="text" name="TeacherName" />
-                    <span asp-validation-for="TeacherName" class="text-danger "></span>
+                <td class="col-1">
+                    <input type="text" name="TeacherName" required oninvalid="this.setCustomValidity('لطفا نام استاد را وارد کنید')" oninput="this.setCustomValidity('')" />
 
                 </td>
-                <td class="col-1"><input type="text" name="ClassNum" />
-                    <span asp-validation-for="ClassNum" class="text-danger "></span>
+                <td class="col-1">
+                    <input type="text" name="ClassNum" required oninvalid="this.setCustomValidity('لطفا مکان برگزاری کلاس را وارد کنید')" oninput="this.setCustomValidity('')" />
 
                 </td>
                 <td class="col-1" style="display:flex;">
-                    <select name="ClassStatus">
+                    <select name="ClassStatus" required oninvalid="this.setCustomValidity('لطفا وضعیت تشکیل کلاس را وارد کنید')" oninput="this.setCustomValidity('')">
                         <option value="true">تشکیل</option>
                         <option value="false">لغو</option>
                     </select>
-                    <select name="IsNew" asp-for="IsNew">
+                    <select name="IsNew" asp-for="IsNew" required oninvalid="this.setCustomValidity('لطفا نوع کلاس را وارد کنید')" oninput="this.setCustomValidity('')">
                         <option value="true">جبرانی</option>
                         <option value="false">
                             عادی
                         </option>
                     </select>
                 </td>
-                <td class="col-1"><input type="text" name="ClassName" />
-                    <span asp-validation-for="ClassName" class="text-danger "></span>
+                <td class="col-1">
+                    <input type="text" name="ClassName" required oninvalid="this.setCustomValidity('لطفا نام کلاس را وارد کنید')" oninput="this.setCustomValidity('')" />
 
                 </td>
                 <td class="col-1">
                     <div class="input-group mb-3">
                         <span id="dtp1" class="input-group-text cursor-pointer" data-mds-dtp-guid="b825fe77-b23c-4b19-bfd5-78c40decb38d" data-bs-original-title="" title="">📅</span>
-                        <input type="text" id="scheduledDateInput" name="scheduledDate" placeholder="تاریخ" data-name="dtp1-text" class="form-control">
+                        <input type="text" id="scheduledDateInput" name="scheduledDate" placeholder="تاریخ" data-name="dtp1-text" class="form-control" required oninvalid="this.setCustomValidity('لطفا تاریخ انجام عملیات را وارد کنید')" oninput="this.setCustomValidity('')">
                     </div>
-                    <span asp-validation-for="scheduledDate" class="text-danger "></span>
 
                 </td>
 
@@ -135,23 +128,20 @@
             
         @foreach (var classData in Model)
         {
-                    <form  asp-action="Update" asp-area="UserPanel" asp-controller="ManageClass" method="post">
+                    <form method="post">
                     
                         <input type="hidden" asp-for="Id" value="@classData.Id" />
                 <tr class="row">
-                    <td class="col-1" style="background-color: @GetClassInputColor(classData) !important;">
-                        <input type="number" name="CourseId" value="@classData.CourseId" style="background-color: @GetClassInputColor(classData);" />
-                        <span asp-validation-for="CourseId" class="text-danger "></span>
+                    <td class="col-1">
+                        <input type="number" name="CourseId" value="@classData.CourseId" style="background-color: @GetClassInputColor(classData);" required oninvalid="this.setCustomValidity('لطفا کد درس را وارد کنید')" oninput="this.setCustomValidity('')" />
                     </td>
                     <td class="col-1">
-                        <input type="number" name="ClassCode" value="@classData.ClassCode" style="background-color: @GetClassInputColor(classData);"  />
-                        <span asp-validation-for="ClassCode" class="text-danger "></span>
+                        <input type="number" name="ClassCode" value="@classData.ClassCode" style="background-color: @GetClassInputColor(classData);" required oninvalid="this.setCustomValidity('لطفا کد کلاس را وارد کنید')" oninput="this.setCustomValidity('')" />
                     </td>
                     <td class="col-1">
-                        <input asp-for="Group" value="@classData.Group" name="Group" style="background-color: @GetClassInputColor(classData);"  />
-                        <span asp-validation-for="Group" class="text-danger "></span>
+                        <input asp-for="Group" value="@classData.Group" name="Group" style="background-color: @GetClassInputColor(classData);" required oninvalid="this.setCustomValidity('لطفا رشته درس را وارد کنید')" oninput="this.setCustomValidity('')" />
                     </td>
-                   <td class="col-1">
+                    <td class="col-1">
     @{
         DayOfWeek dayOfWeekValue;
         if (Enum.TryParse(classData.DayOfClass.ToString(), out dayOfWeekValue))
@@ -159,7 +149,7 @@
             string selectedPersianDay = ValueConverter.ConvertToPersianDayOfWeek(dayOfWeekValue);
 
 
-        <select name="DayOfClass" style="background-color: @GetClassInputColor(classData);">
+         <select name="DayOfClass" style="background-color: @GetClassInputColor(classData);" required oninvalid="this.setCustomValidity('لطفا روز برگزاری کلاس را وارد کنید')" oninput="this.setCustomValidity('')">
         <option value="Saturday" @(selectedPersianDay == "شنبه" ? "selected" : "")>شنبه</option>
         <option value="Sunday" @(selectedPersianDay == "یک‌شنبه" ? "selected" : "")>یک‌شنبه</option>
         <option value="Monday" @(selectedPersianDay == "دوشنبه" ? "selected" : "")>دوشنبه</option>
@@ -175,30 +165,26 @@
 
 
                     <td class="col-1">
-                        <input asp-for="ClassStart" value="@classData.ClassStart" name="ClassStart" style="background-color: @GetClassInputColor(classData);" />
-                        <span asp-validation-for="ClassStart" class="text-danger "></span>
+                        <input asp-for="ClassStart" class="class-start" value="@classData.ClassStart" name="ClassStart" style="background-color: @GetClassInputColor(classData);" required oninvalid="this.setCustomValidity('لطفا ساعت شروع کلاس را وارد کنید')" oninput="this.setCustomValidity('')" />
 
                     </td>
                     <td class="col-1">
-                        <input asp-for="ClassEnd" value="@classData.ClassEnd" name="ClassEnd" style="background-color: @GetClassInputColor(classData);" />
+                        <input asp-for="ClassEnd" class="class-end" value="@classData.ClassEnd" name="ClassEnd" style="background-color: @GetClassInputColor(classData);" required oninvalid="this.setCustomValidity('لطفا ساعت پایان کلاس را وارد کنید')" oninput="this.setCustomValidity('')"/>
 
-                        <span asp-validation-for="ClassEnd" class="text-danger "></span>
                     </td>
                     <td class="col-1">
-                        <input asp-for="TeacherName" value="@classData.TeacherName" name="TeacherName" style="background-color: @GetClassInputColor(classData);" />
-                        <span asp-validation-for="TeacherName" class="text-danger "></span>
+                        <input asp-for="TeacherName" value="@classData.TeacherName" name="TeacherName" required oninvalid="this.setCustomValidity('لطفا نام استاد کلاس را وارد کنید')" oninput="this.setCustomValidity('')" style="background-color: @GetClassInputColor(classData);" />
                     </td>
                     <td class="col-1">
-                        <input type="text" asp-for="ClassNum" value="@classData.ClassNum" name="ClassNum" style="background-color: @GetClassInputColor(classData);" />
-                        <span asp-validation-for="ClassNum" class="text-danger "></span>
+                        <input type="text" asp-for="ClassNum" value="@classData.ClassNum" name="ClassNum" style="background-color: @GetClassInputColor(classData);" required oninvalid="this.setCustomValidity('لطفا مکان برگزاری کلاس را وارد کنید')" oninput="this.setCustomValidity('')" />
                     </td>
                     <td class="col-1" style="display:flex;">
-                        <select name="ClassStatus" asp-for="ClassStatus" style="background-color: @GetClassInputColor(classData);">
+                        <select name="ClassStatus" asp-for="ClassStatus" style="background-color: @GetClassInputColor(classData);" required oninvalid="this.setCustomValidity('لطفا وضعیت تشکیل کلاس را وارد کنید')" oninput="this.setCustomValidity('')">
                         <option value="true" @(classData.ClassStatus == true ? "selected" : "")>تشکیل</option>
                         <option value="false" @(classData.ClassStatus == false ? "selected" : "")>لغو
                             </option>
                             </select>
-                        <select name="IsNew" asp-for="IsNew" style="background-color: @GetClassInputColor(classData);">
+                        <select name="IsNew" asp-for="IsNew" style="background-color: @GetClassInputColor(classData);" required oninvalid="this.setCustomValidity('لطفا نوع کلاس را وارد کنید')" oninput="this.setCustomValidity('')">
                             <option value="true" @(classData.IsNew == true ? "selected" : "")>جبرانی</option>
                             <option value="false" @(classData.IsNew == false || classData.IsNew==null ? "selected" : "")>
                                 عادی
@@ -206,15 +192,13 @@
                         </select>
                 </td>
                     <td class="col-1">
-                        <input asp-for="ClassName" value="@classData.ClassName" name="ClassName" style="background-color: @GetClassInputColor(classData);" />
-                        <span asp-validation-for="ClassName" class="text-danger "></span>
+                        <input asp-for="ClassName" value="@classData.ClassName" name="ClassName" style="background-color: @GetClassInputColor(classData);" required oninvalid="this.setCustomValidity('لطفا نام کلاس را وارد کنید')" oninput="this.setCustomValidity('')" />
                     </td>
                     <td class="col-1">
                         <div class="input-group mb-3">
                             <span class="input-group-text cursor-pointer dtp-trigger" data-date-target="dtp-text-@classData.Id" title="">📅</span>
                             <input type="text" name="scheduledDate" placeholder="تاریخ" data-name="dtp-text-@classData.Id" class="form-control">
                         </div>
-                        <span asp-validation-for="scheduledDate" class="text-danger "></span>
 
                     </td>
                     <td style="display:flex;" class="col-1" style="background-color: @GetClassInputColor(classData);">
