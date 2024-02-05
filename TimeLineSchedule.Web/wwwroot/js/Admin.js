@@ -55,4 +55,5 @@ $(document).ready(function () {
             document.querySelector(".class-end").value = "";
         }
     }
+
 });

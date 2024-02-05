@@ -149,15 +149,15 @@
             string selectedPersianDay = ValueConverter.ConvertToPersianDayOfWeek(dayOfWeekValue);
 
 
-         <select name="DayOfClass" style="background-color: @GetClassInputColor(classData);" required oninvalid="this.setCustomValidity('لطفا روز برگزاری کلاس را وارد کنید')" oninput="this.setCustomValidity('')">
-        <option value="Saturday" @(selectedPersianDay == "شنبه" ? "selected" : "")>شنبه</option>
-        <option value="Sunday" @(selectedPersianDay == "یک‌شنبه" ? "selected" : "")>یک‌شنبه</option>
-        <option value="Monday" @(selectedPersianDay == "دوشنبه" ? "selected" : "")>دوشنبه</option>
-        <option value="Tuesday" @(selectedPersianDay == "سه‌شنبه" ? "selected" : "")>سه‌شنبه</option>
-        <option value="Wednesday" @(selectedPersianDay == "چهارشنبه" ? "selected" : "")>چهارشنبه</option>
-        <option value="Thursday" @(selectedPersianDay == "پنج‌شنبه" ? "selected" : "")>پنج‌شنبه</option>
-        <option value="Friday" @(selectedPersianDay == "جمعه" ? "selected" : "")>جمعه</option>
-    </select>
+                 <select name="DayOfClass" style="background-color: @GetClassInputColor(classData);" required oninvalid="this.setCustomValidity('لطفا روز برگزاری کلاس را وارد کنید')" oninput="this.setCustomValidity('')">
+                <option value="Saturday" @(selectedPersianDay == "شنبه" ? "selected" : "")>شنبه</option>
+                <option value="Sunday" @(selectedPersianDay == "یک‌شنبه" ? "selected" : "")>یک‌شنبه</option>
+                <option value="Monday" @(selectedPersianDay == "دوشنبه" ? "selected" : "")>دوشنبه</option>
+                <option value="Tuesday" @(selectedPersianDay == "سه‌شنبه" ? "selected" : "")>سه‌شنبه</option>
+                <option value="Wednesday" @(selectedPersianDay == "چهارشنبه" ? "selected" : "")>چهارشنبه</option>
+                <option value="Thursday" @(selectedPersianDay == "پنج‌شنبه" ? "selected" : "")>پنج‌شنبه</option>
+                <option value="Friday" @(selectedPersianDay == "جمعه" ? "selected" : "")>جمعه</option>
+            </select>
     }
     }
 </td>
@@ -205,7 +205,7 @@
                     <input type="submit" style="width:50%;" class="update-class btn" formaction="UserPanel/ManageClass/CreateUpdate/@classData.Id" value="ویرایش" />
                     
                          
-                        <input type="submit" class="btn" style="width:50%;" formaction="/UserPanel/ManageClass/Delete/@classData.Id" value="حذف" />
+                        <input type="button" class="btn" style="width:50%;" onclick="btnDeleteClicked('@classData.Id')" value="حذف" />
                   </td>
                         
             </tr>
@@ -215,9 +215,40 @@
         }
     </tbody>
 </table>
+<!--Modal-->
+       
+<div class="modal" style="width:auto;height:auto;top:50%;left:50%;background-color:azure;">
+    <div class="modal-header">
+        <p>آیا مطمئن هستید میخواهید این کلاس را حذف کنید؟</p>
+    </div>
+    <div class="modal-body">
+    <form method="post" action="UserPanel/ManageClass/Delete" id="ClassesModalForm">
+        <input type="hidden" id="SelectedClassId" name="Id" value="" />
+        <button class="btn btn-success" type="submit">بله</button>
+        <button type="button" class="btn btn-danger cancelModalbtn">خیر</button>
+    </form>
+    </div>
+</div>
+        
 </body>
 
 </html>
+<script type="text/javascript">
+    function btnDeleteClicked(Id) {
+        debugger
+        const modal = document.querySelector('.modal');
+        modal.style.display = 'block';
+
+        const closeButtons = document.querySelectorAll('.cancelModalbtn,.modal-body button, .modal-header, .modal-background');
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+        });
+        var hiddenClass = document.getElementById("SelectedClassId");
+        hiddenClass.value = Id;
+    }
+</script>
 @functions {
     string GetClassInputColor(ClassData classData)
     {
